@@ -4,4 +4,4 @@ import PPM
 
 
 main :: IO ()
-main = someFunc
+main = putStrLn "TO BE IMPLEMENTED"
