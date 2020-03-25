@@ -1,5 +1,5 @@
 module PPM
-  ( parseHeader
+  ( parsePPM
   ) where
 
 import Data.Maybe (fromJust)
@@ -16,9 +16,11 @@ data Header = Header
   } deriving Show
 
 -- Pixel R G B
-data Pixel = Pixel Int Int Int
+data Pixel = Pixel Int Int Int deriving Show
 
 type Body = [[Pixel]]
+
+data PPM = PPM Header Body deriving Show
 
 
 -- Use only if sure that the bytestring value is an integer
@@ -48,3 +50,9 @@ parseBody header rest = splitIntoRows w rawBody
   where
     rawBody = parseBodyRaw rest
     w = width header
+
+parsePPM :: ByteString -> PPM
+parsePPM raw = PPM header body
+  where
+    (header, rest) = parseHeader raw
+    body = parseBody header rest
