@@ -18,19 +18,22 @@ data Header = Header
 -- Pixel R G B
 data Pixel = Pixel Int Int Int
 
+-- Use only if sure that the bytestring value is an integer
+toInt :: ByteString -> Int
+toInt = fst . fromJust . BC.readInt
+
 parseHeader :: ByteString -> (Header,[ByteString])
 parseHeader raw = (header, rest)
   where
     stripComments = BC.unlines . map (BC.takeWhile (/= '#')) . BC.lines
     (_:rawHeader, rest) = splitAt 4 $ BC.words $ stripComments raw
-    headerAsInts = map (fst . fromJust . BC.readInt) rawHeader
+    headerAsInts = map toInt rawHeader
     header = Header (headerAsInts !! 0) (headerAsInts !! 1) (headerAsInts !! 2)
 
 parseBodyRaw :: [ByteString] -> [Pixel]
 parseBodyRaw []         = []
 parseBodyRaw (r:g:b:xs) = Pixel r' g' b' : parseBodyRaw xs
   where
-    toInt = fst . fromJust . BC.readInt
     r' = toInt r
     g' = toInt g
     b' = toInt b
