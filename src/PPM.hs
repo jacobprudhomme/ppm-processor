@@ -18,6 +18,9 @@ data Header = Header
 -- Pixel R G B
 data Pixel = Pixel Int Int Int
 
+type Body = [[Pixel]]
+
+
 -- Use only if sure that the bytestring value is an integer
 toInt :: ByteString -> Int
 toInt = fst . fromJust . BC.readInt
@@ -34,3 +37,14 @@ parseBodyRaw :: [ByteString] -> [Pixel]
 parseBodyRaw []         = []
 parseBodyRaw (r:g:b:xs) = Pixel r' g' b' : parseBodyRaw xs
   where [r',g',b'] = map toInt [r,g,b]
+
+splitIntoRows :: Int -> [a] -> [[a]]
+splitIntoRows _ []        = []
+splitIntoRows lenOfRow xs =
+  take lenOfRow xs : splitIntoRows lenOfRow (drop lenOfRow xs)
+
+parseBody :: Header -> [ByteString] -> Body
+parseBody header rest = splitIntoRows w rawBody
+  where
+    rawBody = parseBodyRaw rest
+    w = width header
