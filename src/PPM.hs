@@ -15,6 +15,9 @@ data Header = Header
   , maxColourVal :: Int
   } deriving Show
 
+-- Pixel R G B
+data Pixel = Pixel Int Int Int
+
 parseHeader :: ByteString -> (Header,[ByteString])
 parseHeader raw = (header, rest)
   where
@@ -22,3 +25,12 @@ parseHeader raw = (header, rest)
     (_:rawHeader, rest) = splitAt 4 $ BC.words $ stripComments raw
     headerAsInts = map (fst . fromJust . BC.readInt) rawHeader
     header = Header (headerAsInts !! 0) (headerAsInts !! 1) (headerAsInts !! 2)
+
+parseBodyRaw :: [ByteString] -> [Pixel]
+parseBodyRaw []         = []
+parseBodyRaw (r:g:b:xs) = Pixel r' g' b' : parseBodyRaw xs
+  where
+    toInt = fst . fromJust . BC.readInt
+    r' = toInt r
+    g' = toInt g
+    b' = toInt b
