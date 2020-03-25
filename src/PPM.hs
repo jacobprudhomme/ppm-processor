@@ -33,7 +33,4 @@ parseHeader raw = (header, rest)
 parseBodyRaw :: [ByteString] -> [Pixel]
 parseBodyRaw []         = []
 parseBodyRaw (r:g:b:xs) = Pixel r' g' b' : parseBodyRaw xs
-  where
-    r' = toInt r
-    g' = toInt g
-    b' = toInt b
+  where [r',g',b'] = map toInt [r,g,b]
