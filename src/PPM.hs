@@ -2,6 +2,7 @@ module PPM
   ( flipPPM
   , parsePPM
   , rotatePPM
+  , sepiaPPM
   ) where
 
 import Data.List (transpose)
@@ -65,3 +66,16 @@ flipPPM (PPM header body) = PPM header $ map reverse body
 
 rotatePPM :: PPM -> PPM
 rotatePPM (PPM header body) = PPM header $ reverse (transpose body)
+
+applySepiaToPixel :: Pixel -> Pixel
+applySepiaToPixel (Pixel r g b) = Pixel r' g' b'
+  where
+    [rAsDouble,gAsDouble,bAsDouble] = map fromIntegral [r,g,b]
+    r' = round $ rAsDouble * 0.393 + gAsDouble * 0.769 + bAsDouble * 0.189
+    g' = round $ rAsDouble * 0.349 + gAsDouble * 0.686 + bAsDouble * 0.168
+    b' = round $ rAsDouble * 0.272 + gAsDouble * 0.534 + bAsDouble * 0.131
+
+sepiaPPM :: PPM -> PPM
+sepiaPPM (PPM header body) = PPM header $ map (map applySepiaToPixel) body
+
+
