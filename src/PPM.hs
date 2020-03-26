@@ -1,5 +1,6 @@
 module PPM
-  ( parsePPM
+  ( flipPPM
+  , parsePPM
   ) where
 
 import Data.Maybe (fromJust)
@@ -56,3 +57,6 @@ parsePPM raw = PPM header body
   where
     (header, rest) = parseHeader raw
     body = parseBody header rest
+
+flipPPM :: PPM -> PPM
+flipPPM (PPM header body) = PPM header $ map reverse body
