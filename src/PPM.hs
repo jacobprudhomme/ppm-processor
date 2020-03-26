@@ -1,8 +1,10 @@
 module PPM
   ( flipPPM
   , parsePPM
+  , rotatePPM
   ) where
 
+import Data.List (transpose)
 import Data.Maybe (fromJust)
 
 import Data.ByteString.Lazy (ByteString)
@@ -60,3 +62,6 @@ parsePPM raw = PPM header body
 
 flipPPM :: PPM -> PPM
 flipPPM (PPM header body) = PPM header $ map reverse body
+
+rotatePPM :: PPM -> PPM
+rotatePPM (PPM header body) = PPM header $ reverse (transpose body)
