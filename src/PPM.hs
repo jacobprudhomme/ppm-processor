@@ -1,8 +1,11 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module PPM
   ( flipPPM
   , parsePPM
   , rotatePPM
   , sepiaPPM
+  , writePPM
   ) where
 
 import Data.List (transpose)
@@ -78,4 +81,12 @@ applySepiaToPixel (Pixel r g b) = Pixel r' g' b'
 sepiaPPM :: PPM -> PPM
 sepiaPPM (PPM header body) = PPM header $ map (map applySepiaToPixel) body
 
+writePixel :: Pixel -> ByteString
+writePixel (Pixel r g b) = BC.pack (unwords [show r, show g, show b])
 
+writePPM :: PPM -> ByteString
+writePPM (PPM header body) = (writeHeader header) <> "\n" <> (writeBody body)
+  where
+    writeHeader h = BC.pack ("P3 " <> (unwords $ map show [width h, height h, maxColourVal h]))
+    bodyAsBytes = map (map writePixel) body
+    writeBody b = BC.concat $ map (flip (<>) "\n" . BC.unwords) bodyAsBytes
