@@ -68,7 +68,8 @@ flipPPM :: PPM -> PPM
 flipPPM (PPM header body) = PPM header $ map reverse body
 
 rotatePPM :: PPM -> PPM
-rotatePPM (PPM header body) = PPM header $ reverse (transpose body)
+rotatePPM (PPM header body) = PPM newHeader $ reverse (transpose body)
+  where newHeader = header{width=height header, height=width header}
 
 applySepiaToPixel :: Pixel -> Pixel
 applySepiaToPixel (Pixel r g b) = Pixel r' g' b'
