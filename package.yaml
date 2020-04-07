@@ -36,7 +36,6 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - bytestring
-    - containers
     - ppm-processor
 
 tests:

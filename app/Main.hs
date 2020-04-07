@@ -1,23 +1,21 @@
 module Main where
 
-import Data.Maybe (fromJust)
 import System.Environment
 
 import qualified Data.ByteString.Lazy as B
-import qualified Data.Map as Map
 
 import PPM
 
 
-transformMap :: Map.Map String (PPM -> PPM)
-transformMap = Map.fromList
-  [ ("flip", flipPPM)
-  , ("rotate", rotatePPM)
-  , ("sepia", sepiaPPM)
-  ]
+transformDispatch :: String -> (PPM -> PPM)
+transformDispatch command = case command of
+  "flip" -> flipPPM
+  "rotate" -> rotatePPM
+  "sepia" -> sepiaPPM
+  _ -> id
 
 applyTransform :: PPM -> String -> PPM
-applyTransform ppm command = fromJust (Map.lookup command transformMap) ppm
+applyTransform ppm command = transformDispatch command ppm
 
 main :: IO ()
 main = do
