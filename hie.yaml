@@ -1,0 +1,10 @@
+cradle:
+  stack:
+    - path: "./app"
+      component: "ppm-processor:exe:ppm-processor-exe"
+    - path: "./src"
+      component: "ppm-processor:lib"
+    - path: "./test"
+      component: "ppm-processor:test:ppm-processor-test"
+    - path: "./Setup.hs"
+      component: "Cabal"
