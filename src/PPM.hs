@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module PPM
-  ( flipPPM
+  ( PPM
+  , flipPPM
   , parsePPM
   , rotatePPM
   , sepiaPPM

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8ed32b1c2193fafb4f16bcd341361314ce9df4ada474af0a477f57df690b3744
+-- hash: 06f2411bcb6aa086dc55714e33918c2a00e9bded58759001e1120cf196da46d8
 
 name:           ppm-processor
 version:        0.1.0.0
@@ -45,6 +45,8 @@ executable ppm-processor-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , bytestring
+    , containers
     , ppm-processor
   default-language: Haskell2010
 
