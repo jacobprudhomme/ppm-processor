@@ -8,10 +8,14 @@ import PPM
 
 
 tests = TestList
-  [ "Line breaks don't affect parsed value" ~: test_lineBreaksDontAffectParsedValue
-  , "Comments don't affect parsed value" ~: test_commentsDontAffectParsedValue
-  , "Comments don't affect parsed value (inline)" ~: test_commentsDontAffectParsedValueInline
-  , "Comments don't affect parsed value (semi-inline)" ~: test_commentsDontAffectParsedValueSemiInline
+  [ "Line breaks in source" ~:
+      TestList ["don't affect parsed value" ~: test_lineBreaksDontAffectParsedValue]
+  , "Comments in source" ~:
+      TestList
+        [ "don't affect parsed value" ~: test_commentsDontAffectParsedValue
+        , "don't affect parsed value (inline)" ~: test_commentsDontAffectParsedValueInline
+        , "don't affect parsed value (semi-inline)" ~: test_commentsDontAffectParsedValueSemiInline
+        ]
   ]
 
 test_lineBreaksDontAffectParsedValue =
