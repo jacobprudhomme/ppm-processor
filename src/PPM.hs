@@ -21,14 +21,14 @@ data Header = Header
   { width :: Int
   , height :: Int
   , maxColourVal :: Int
-  } deriving Show
+  } deriving (Eq, Show)
 
 -- Pixel R G B
-data Pixel = Pixel Int Int Int deriving Show
+data Pixel = Pixel Int Int Int deriving (Eq, Show)
 
 type Body = [[Pixel]]
 
-data PPM = PPM Header Body deriving Show
+data PPM = PPM Header Body deriving (Eq, Show)
 
 
 -- Use only if sure that the bytestring value is an integer

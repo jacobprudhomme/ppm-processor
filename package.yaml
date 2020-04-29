@@ -47,4 +47,6 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - bytestring
+    - HUnit
     - ppm-processor
