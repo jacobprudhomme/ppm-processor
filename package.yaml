@@ -48,5 +48,6 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - bytestring
-    - HUnit
     - ppm-processor
+    - tasty
+    - tasty-hunit
