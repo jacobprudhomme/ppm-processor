@@ -51,3 +51,4 @@ tests:
     - ppm-processor
     - tasty
     - tasty-hunit
+    - tasty-quickcheck

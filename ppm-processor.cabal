@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8fb85a745ad241ec1a9c6a9c056ff4cd0fbb71a1263e4e7be8aa91dce1f1ba0b
+-- hash: 8ac583cfe17d570f246e7e2702d51f978edf35d901c4af0cdfe8df765fc41b55
 
 name:           ppm-processor
 version:        0.1.0.0
@@ -63,4 +63,5 @@ test-suite ppm-processor-test
     , ppm-processor
     , tasty
     , tasty-hunit
+    , tasty-quickcheck
   default-language: Haskell2010

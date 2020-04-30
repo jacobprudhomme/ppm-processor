@@ -2,13 +2,14 @@
 
 import Test.Tasty
 import Test.Tasty.HUnit
+import Test.Tasty.QuickCheck
 
 import qualified Data.ByteString.Lazy.Char8 as BC
 
 import PPM
 
 
-tests = testGroup "All Tests" [unitTests]
+tests = testGroup "All Tests" [unitTests, propertyTests]
 
 unitTests = testGroup "Unit Tests"
   [ testGroup "Line breaks in source"
@@ -19,6 +20,14 @@ unitTests = testGroup "Unit Tests"
       , testCase "don't affect parsed value (semi-inline)" test_commentsDontAffectParsedValueSemiInline
       ]
   ]
+
+propertyTests = testGroup "Property Tests"
+  [ testGroup "Repeated transforms"
+      [ testProperty "(4 rotations) return initial PPM" prop_fourRotatesGivesInitialPPM
+      , testProperty "(2 flips) return initial PPM" prop_twoFlipsGivesInitialPPM
+      ]
+  ]
+
 
 test_lineBreaksDontAffectParsedValue =
   let inputWithLineBreaks = BC.unlines
@@ -60,6 +69,34 @@ test_commentsDontAffectParsedValueSemiInline =
         , "0 255 0"
         ]
   in parsePPM inputWithComments @?= parsePPM inputWithoutComments
+
+
+instance Arbitrary Header where
+  arbitrary = Header
+    <$> (getPositive <$> arbitrary)
+    <*> (getPositive <$> arbitrary)
+    <*> (getPositive <$> arbitrary)
+
+instance Arbitrary Pixel where
+  arbitrary = Pixel
+    <$> (getPositive <$> arbitrary)
+    <*> (getPositive <$> arbitrary)
+    <*> (getPositive <$> arbitrary)
+
+instance Arbitrary PPM where
+  arbitrary = do
+    header <- arbitrary :: Gen Header
+    let w = width header
+        h = height header
+    body <- vectorOf h $ vectorOf w arbitrary
+    return $PPM header body
+
+prop_fourRotatesGivesInitialPPM ppm =
+  (rotatePPM . rotatePPM . rotatePPM . rotatePPM) ppm == ppm
+
+prop_twoFlipsGivesInitialPPM ppm =
+  (flipPPM . flipPPM) ppm == ppm
+
 
 main :: IO ()
 main = defaultMain tests
