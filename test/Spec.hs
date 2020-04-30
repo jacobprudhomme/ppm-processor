@@ -6,7 +6,7 @@ import Test.Tasty.QuickCheck
 
 import qualified Data.ByteString.Lazy.Char8 as BC
 
-import PPM
+import PPM.Internal
 
 
 tests = testGroup "All Tests" [unitTests, propertyTests]

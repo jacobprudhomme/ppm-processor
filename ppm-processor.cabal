@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8ac583cfe17d570f246e7e2702d51f978edf35d901c4af0cdfe8df765fc41b55
+-- hash: 829edb51ac98bd8dcfa2f8ee1bd6b9e7ad405ee8ea98e5fe9bb515bcec66c6be
 
 name:           ppm-processor
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 library
   exposed-modules:
       PPM
+      PPM.Internal
   other-modules:
       Paths_ppm_processor
   hs-source-dirs:
