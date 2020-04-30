@@ -73,23 +73,19 @@ test_commentsDontAffectParsedValueSemiInline =
 
 instance Arbitrary Header where
   arbitrary = Header
-    <$> (getPositive <$> arbitrary)
-    <*> (getPositive <$> arbitrary)
-    <*> (getPositive <$> arbitrary)
-
-instance Arbitrary Pixel where
-  arbitrary = Pixel
-    <$> (getPositive <$> arbitrary)
-    <*> (getPositive <$> arbitrary)
-    <*> (getPositive <$> arbitrary)
+    <$> choose (1,100)
+    <*> choose (1,100)
+    <*> choose (0,255)
 
 instance Arbitrary PPM where
   arbitrary = do
-    header <- arbitrary :: Gen Header
-    let w = width header
-        h = height header
-    body <- vectorOf h $ vectorOf w arbitrary
-    return $PPM header body
+    header@(Header w h maxCV) <- arbitrary :: Gen Header
+    let pixel = Pixel
+          <$> choose (0,maxCV)
+          <*> choose (0,maxCV)
+          <*> choose (0,maxCV)
+    body <- vectorOf h $ vectorOf w $ pixel
+    return $ PPM header body
 
 prop_fourRotatesGivesInitialPPM ppm =
   (rotatePPM . rotatePPM . rotatePPM . rotatePPM) ppm == ppm
